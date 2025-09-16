@@ -6,15 +6,15 @@ public class Player_1 : MonoBehaviour
     public float jumpForce = 10f;
     public LayerMask groundLayer;
     public Transform groundCheck;
-    private bool isGrounded;
-    private Animator animator;
-    private Rigidbody2D rb;
+    private bool _isGrounded;
+    private Animator _animator;
+    private Rigidbody2D _rb;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        animator = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
+        _rb = GetComponent<Rigidbody2D>();
     }
     void Start()
     {
@@ -31,7 +31,7 @@ public class Player_1 : MonoBehaviour
     private void HandleMovement()
     {
         float moveX = Input.GetAxis("Horizontal");
-        rb.linearVelocity = new Vector2(moveX * moveSpeed, rb.linearVelocity.y);
+        _rb.linearVelocity = new Vector2(moveX * moveSpeed , _rb.linearVelocity.y);
         if (moveX > 0)
         {
             transform.localScale = new Vector3(1, 1, 1);
@@ -44,18 +44,26 @@ public class Player_1 : MonoBehaviour
     private void HandleJump()
     {
 
-        if (isGrounded && Input.GetButtonDown("Jump"))
+        if (_isGrounded && Input.GetButtonDown("Jump"))
         {
-            rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+            _rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
         }
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+        _isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
     private void UpdateAnimator()
     {
-        bool isRunning = Mathf.Abs(rb.linearVelocity.x) > 0.1f;
-        bool isJumping = !isGrounded;
-        animator.SetBool("isRunning", isRunning);
-        animator.SetBool("isJumping", isJumping);
+        bool isRunning = Mathf.Abs(_rb.linearVelocity.x) > 0.1f;
+        bool isJumping = !_isGrounded;
+        _animator.SetBool("isRunning", isRunning);
+        _animator.SetBool("isJumping", isJumping);
 
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("coin"))
+        {
+            Debug.Log("Cong them 1 coin");
+            Destroy(collision.gameObject);
+        }
     }
 }
