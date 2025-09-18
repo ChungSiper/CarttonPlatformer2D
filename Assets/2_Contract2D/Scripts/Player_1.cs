@@ -1,4 +1,6 @@
 using UnityEngine;
+using static UnityEngine.InputSystem.InputAction;
+
 
 public class Player_1 : MonoBehaviour
 {
@@ -16,32 +18,29 @@ public class Player_1 : MonoBehaviour
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
     }
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
-    void Update()
+    public void Update()
     {
-        HandleMovement();
-        HandleJump();
-        UpdateAnimator();
+        //HandleMovement();
+        //HandleJump();
+        //UpdateAnimator();
     }
-    private void HandleMovement()
+    public void HandleMovement( CallbackContext ctx)
     {
-        float moveX = Input.GetAxis("Horizontal");
-        _rb.linearVelocity = new Vector2(moveX * moveSpeed , _rb.linearVelocity.y);
-        if (moveX > 0)
-        {
-            transform.localScale = new Vector3(1, 1, 1);
-        }
-        else if (moveX < 0)
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
+        float moveX = ctx.ReadValue<float>();
+        
+        //float moveX = Input.GetAxis("Horizontal");
+        //_rb.linearVelocity = new Vector2(moveX * moveSpeed , _rb.linearVelocity.y);
+        //if (moveX > 0)
+        //{
+        //    transform.localScale = new Vector3(1, 1, 1);
+        //}
+        //else if (moveX < 0)
+        //{
+        //    transform.localScale = new Vector3(-1, 1, 1);
+        //}
     }
-    private void HandleJump()
+    public void HandleJump()
     {
 
         if (_isGrounded && Input.GetButtonDown("Jump"))
@@ -57,13 +56,5 @@ public class Player_1 : MonoBehaviour
         _animator.SetBool("isRunning", isRunning);
         _animator.SetBool("isJumping", isJumping);
 
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("coin"))
-        {
-            Debug.Log("Cong them 1 coin");
-            Destroy(collision.gameObject);
-        }
     }
 }
