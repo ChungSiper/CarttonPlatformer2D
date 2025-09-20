@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
         HandleMovement();
         HandleJump();
         UpdateAnimator();
+        HandleAttack();
+
     }
     private void HandleMovement()
     {
@@ -56,6 +58,7 @@ public class Player : MonoBehaviour
         {
             animator.SetTrigger("Attack");
         }
+        
     }
     private void UpdateAnimator()
     {

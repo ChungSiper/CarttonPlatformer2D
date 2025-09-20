@@ -21,24 +21,24 @@ public class Player_1 : MonoBehaviour
 
     public void Update()
     {
-        //HandleMovement();
-        //HandleJump();
-        //UpdateAnimator();
+        HandleMovement();
+        HandleJump();
+        UpdateAnimator();
+        Attack();
     }
-    public void HandleMovement( CallbackContext ctx)
+    public void HandleMovement()
     {
-        float moveX = ctx.ReadValue<float>();
-        
-        //float moveX = Input.GetAxis("Horizontal");
-        //_rb.linearVelocity = new Vector2(moveX * moveSpeed , _rb.linearVelocity.y);
-        //if (moveX > 0)
-        //{
-        //    transform.localScale = new Vector3(1, 1, 1);
-        //}
-        //else if (moveX < 0)
-        //{
-        //    transform.localScale = new Vector3(-1, 1, 1);
-        //}
+
+        float moveX = Input.GetAxis("Horizontal");
+        _rb.linearVelocity = new Vector2(moveX * moveSpeed, _rb.linearVelocity.y);
+        if (moveX > 0)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        else if (moveX < 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
     }
     public void HandleJump()
     {
@@ -52,9 +52,15 @@ public class Player_1 : MonoBehaviour
     private void UpdateAnimator()
     {
         bool isRunning = Mathf.Abs(_rb.linearVelocity.x) > 0.1f;
-        bool isJumping = !_isGrounded;
         _animator.SetBool("isRunning", isRunning);
-        _animator.SetBool("isJumping", isJumping);
 
+        
+
+
+    }
+    private void Attack()
+    {
+            _animator.SetTrigger("Attack");
+        
     }
 }
